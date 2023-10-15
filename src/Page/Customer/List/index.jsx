@@ -5,6 +5,7 @@ import columns from "./columns.js";
 
 
 function Customers() {
+
     const [filterName, setFilterName] = useState('');
     const [filterEmail, setFilterEmail] = useState('');
     const customersFiltered = useMemo(() => {
