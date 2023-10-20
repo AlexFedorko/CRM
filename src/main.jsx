@@ -12,9 +12,13 @@ const router = createBrowserRouter([
     {
         path: '/customer/list',
         element: <Customers/>
-    }
+    },
+    // {
+    //     path: '/customer/add',
+    //     element: <CustomersAdd/>
+    // }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <RouterProvider router={router} />
+    <RouterProvider router={router}/>
 )
