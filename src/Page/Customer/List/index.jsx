@@ -1,6 +1,6 @@
 import React, {useMemo, useState} from 'react';
 import customers from './customer.json'
-import {Input, Table} from "antd";
+import {Col, Input, Row, Table} from "antd";
 import columns from "./columns.js";
 
 const initial = {
@@ -54,36 +54,56 @@ function Customers() {
         })
     }
 
-    return <>
-        <div>
-            <Input
-                value={filters.name}
-                onChange={onChangeFilter('name')}
-                placeholder='Name'
-            />
-            <Input
-                value={filters.email}
-                onChange={onChangeFilter('email')}
-                placeholder='Email'
-            />
-            <Input
-                value={filters.phone}
-                onChange={onChangeFilter('phone')}
-                placeholder='Phone'
-            />
-            <Input
-                value={filters.address}
-                onChange={onChangeFilter('address')}
-                placeholder='Address'
-            />
-            <Input
-                value={filters.age}
-                onChange={onChangeFilter('age')}
-                placeholder='Age'
-            />
-        </div>
-        <Table rowKey='id' columns={columns} dataSource={customersFiltered}/>
-    </>
-}
+    return (
+        <>
+            <Row gutter={[16, 16]}>
+                <Col span={12}>
+                    <Input
+                        value={filters.name}
+                        onChange={onChangeFilter('name')}
+                        placeholder='Name'
+                    />
+                </Col>
+                <Col span={12}>
+                    <Input
+                        value={filters.email}
+                        onChange={onChangeFilter('email')}
+                        placeholder='Email'
+                    />
+                </Col>
+            </Row>
+
+            <Row gutter={[16, 16]}>
+                <Col span={12}>
+                    <Input
+                        value={filters.phone}
+                        onChange={onChangeFilter('phone')}
+                        placeholder='Phone'
+                    />
+                </Col>
+                <Col span={12}>
+                    <Input
+                        value={filters.address}
+                        onChange={onChangeFilter('address')}
+                        placeholder='Address'
+                    />
+                </Col>
+            </Row>
+
+            <Row gutter={[16, 16]}>
+                <Col span={12}>
+                    <Input
+                        value={filters.age}
+                        onChange={onChangeFilter('age')}
+                        placeholder='Age'
+                    />
+                </Col>
+            </Row>
+
+            <Table rowKey='id' columns={columns} dataSource={customersFiltered}/>
+        </>
+    );
+        }
+
 
 export default Customers;
