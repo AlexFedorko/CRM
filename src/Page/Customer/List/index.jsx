@@ -19,6 +19,8 @@ const initial = {
     phone: '',
     address: '',
     age: '',
+    ageFrom: '',
+    ageTill: ''
 }
 function CustomersListPage() {
     const [filters, setFilters] = useState(initial);
@@ -84,38 +86,38 @@ function CustomersListPage() {
                 </Col>
             </Row>
             <Row gutter={[16, 16]}>
-                <Col span={8}>
+                <Col span={6}>
                     <Input
                         value={filters.name}
                         onChange={onChangeFilter('name')}
                         placeholder='Name'
                     />
                 </Col>
-                <Col span={8}>
+                <Col span={6}>
                     <Input
                         value={filters.email}
                         onChange={onChangeFilter('email')}
                         placeholder='Email'
                     />
                 </Col>
-                <Col span={8}>
+                <Col span={6}>
                     <Input
                         value={filters.phone}
                         onChange={onChangeFilter('phone')}
                         placeholder='Phone'
                     />
                 </Col>
-            </Row>
-
-            <Row gutter={[16, 16]}>
-                <Col span={8}>
+                <Col span={6}>
                     <Input
                         value={filters.address}
                         onChange={onChangeFilter('address')}
                         placeholder='Address'
                     />
                 </Col>
-                <Col span={8}>
+            </Row>
+
+            <Row gutter={[16, 16]}>
+                <Col span={6}>
                     <Input
                         value={filters.age}
                         onChange={onChangeFilter('age')}
@@ -142,6 +144,5 @@ function CustomersListPage() {
         </>
     );
         }
-
 
 export default CustomersListPage;
