@@ -30,7 +30,8 @@ function CustomersListPage() {
     }, []);
 
     const customers = useSelector(makeSelectCustomerList())
-
+    console.log(customers);
+    return customers.map(customer => customer.username + ', ');
     const customersNormalize = useMemo(() => {
         const res = [];
         for(const v of customers){
