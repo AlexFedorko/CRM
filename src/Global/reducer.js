@@ -8,16 +8,22 @@ import {produce} from 'immer';
 
 export const initial = {
     customers: [],
-    errors: []
+    errors: [],
+    loading: false
 }
 export default (state = initial, action) => produce(state, draft => {
 
     switch(action.type){
+        case LOAD_CUSTOMER_LIST:
+            draft.loading = true;
+            break;
         case LOAD_CUSTOMER_LIST_SUCCESS:
            draft.customers = action.items
+            draft.loading = false;
         break;
         case LOAD_CUSTOMER_LIST_ERROR:
             draft.errors.push(action.error);
+            draft.loading = false;
             alert(action.error);
             break;
     }

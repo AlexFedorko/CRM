@@ -3,7 +3,8 @@ import {Col, Input, Row, Table} from "antd";
 import columns from "./columns.js";
 import {useDispatch, useSelector} from "react-redux";
 import {loadCustomerList} from "./actions.js";
-import {makeSelectCustomerList} from "./selector.js";
+import {makeSelectCustomerList, makeSelectCustomerLoading} from "./selector.js";
+import {useNavigate} from "react-router-dom";
 
 // 1. Для фильтров добавь грид. Сделай так.
 // Чтобы на телефоне было 1 поле в строку.
@@ -23,125 +24,155 @@ const initial = {
     ageTill: ''
 }
 function CustomersListPage() {
-    const [filters, setFilters] = useState(initial);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(loadCustomerList());
     }, []);
 
-    const customers = useSelector(makeSelectCustomerList())
-    console.log(customers);
-    return customers.map(customer => customer.username + ', ');
-    const customersNormalize = useMemo(() => {
-        const res = [];
-        for(const v of customers){
-            const item = {...v};
+    const customers = useSelector(makeSelectCustomerList());
+    const loading = useSelector(makeSelectCustomerLoading());
+    const nav = useNavigate();
+    // return customers.map(customer =>
+    //     <ul>
+    //     <li style={{
+    //         display: 'flex',
+    //         width: '400px',
+    //         height: '80px',
+    //         border: '1px solid black',
+    //         gap: '10px',
+    //         margin: '10px'
+    //     }}>
+    //         Username: {customer.username + ', '}
+    //         First Name: {customer.first_name + ', '}
+    //         Last Name: {customer.last_name + ', '}
+    //         Gender: {customer.gender + ', '}
+    //         Phone: {customer.phone + ', '}
+    //         Status: {customer.status + ', '}
+    //     </li>
+    //         <li></li>
+    // </ul>);
 
-            for (const key of ['name', 'email', 'address']) {
-                item[key] = item[key].toLowerCase();
-            }
-            item.phone = item.phone.replace(/\D+/g, '');
-            item.age = item.age.toString();
-            res.push(item);
-        }
-        return res;
-    }, [customers])
-
-    const customersFiltered = useMemo(() => {
-        if (!Object.values(filters).some((v) => v)) {
-            return customers;
-        }
-
-        const filtersNameLower = filters.name.toLowerCase();
-        const filtersEmailLower = filters.email.toLowerCase();
-        const filtersAddressLower = filters.address.toLowerCase();
-        const filtersPhoneOnlyNumbers = filters.phone.replace(/\D+/g, '');
-
-        return customers.filter((_, index) => {
-                const v = customersNormalize[index];
-                return (filtersNameLower && v.name.includes(filtersNameLower)) ||
-                    (filtersEmailLower && v.email.includes(filtersEmailLower)) ||
-                    (filters.phone && v.phone.includes(filtersPhoneOnlyNumbers)) ||
-                    (filters.address && v.address.includes(filtersAddressLower)) ||
-                    (filters.age && v.age.includes(filters.age))
-            }
-        );
-    }, [customersNormalize, filters]);
-
-    const onChangeFilter = (inputName) => {
-        return e => setFilters(prev => {
-            prev[inputName] = e.target.value;
-            return {...prev};
-        })
-    }
+    // Default customers searching list
+    // const customersNormalize = useMemo(() => {
+    //     const res = [];
+    //     for(const v of customers){
+    //         const item = {...v};
+    //
+    //         for (const key of ['name', 'email', 'address']) {
+    //             item[key] = item[key].toLowerCase();
+    //         }
+    //         item.phone = item.phone.replace(/\D+/g, '');
+    //         item.age = item.age.toString();
+    //         res.push(item);
+    //     }
+    //     return res;
+    // }, [customers])
+    //
+    // const customersFiltered = useMemo(() => {
+    //     if (!Object.values(filters).some((v) => v)) {
+    //         return customers;
+    //     }
+    //
+    //     const filtersNameLower = filters.name.toLowerCase();
+    //     const filtersEmailLower = filters.email.toLowerCase();
+    //     const filtersAddressLower = filters.address.toLowerCase();
+    //     const filtersPhoneOnlyNumbers = filters.phone.replace(/\D+/g, '');
+    //
+    //     return customers.filter((_, index) => {
+    //             const v = customersNormalize[index];
+    //             return (filtersNameLower && v.name.includes(filtersNameLower)) ||
+    //                 (filtersEmailLower && v.email.includes(filtersEmailLower)) ||
+    //                 (filters.phone && v.phone.includes(filtersPhoneOnlyNumbers)) ||
+    //                 (filters.address && v.address.includes(filtersAddressLower)) ||
+    //                 (filters.age && v.age.includes(filters.age))
+    //         }
+    //     );
+    // }, [customersNormalize, filters]);
+    //
+    // const onChangeFilter = (inputName) => {
+    //     return e => setFilters(prev => {
+    //         prev[inputName] = e.target.value;
+    //         return {...prev};
+    //     })
+    // }
 
     return (
         <>
-            <Row gutter={[16,16]}>
-                <Col span={24}>
-                    <Input
-                    value={filters.name}
-                    onChange={onChangeFilter('name')}
-                    placeholder='Global Search'
-                    />
-                </Col>
-            </Row>
-            <Row gutter={[16, 16]}>
-                <Col span={6}>
-                    <Input
-                        value={filters.name}
-                        onChange={onChangeFilter('name')}
-                        placeholder='Name'
-                    />
-                </Col>
-                <Col span={6}>
-                    <Input
-                        value={filters.email}
-                        onChange={onChangeFilter('email')}
-                        placeholder='Email'
-                    />
-                </Col>
-                <Col span={6}>
-                    <Input
-                        value={filters.phone}
-                        onChange={onChangeFilter('phone')}
-                        placeholder='Phone'
-                    />
-                </Col>
-                <Col span={6}>
-                    <Input
-                        value={filters.address}
-                        onChange={onChangeFilter('address')}
-                        placeholder='Address'
-                    />
-                </Col>
-            </Row>
+            {/*<Row gutter={[16,16]}>*/}
+            {/*    <Col span={24}>*/}
+            {/*        <Input*/}
+            {/*        value={filters.name}*/}
+            {/*        onChange={onChangeFilter('name')}*/}
+            {/*        placeholder='Global Search'*/}
+            {/*        />*/}
+            {/*    </Col>*/}
+            {/*</Row>*/}
+            {/*<Row gutter={[16, 16]}>*/}
+            {/*    <Col span={6}>*/}
+            {/*        <Input*/}
+            {/*            value={filters.name}*/}
+            {/*            onChange={onChangeFilter('name')}*/}
+            {/*            placeholder='Name'*/}
+            {/*        />*/}
+            {/*    </Col>*/}
+            {/*    <Col span={6}>*/}
+            {/*        <Input*/}
+            {/*            value={filters.email}*/}
+            {/*            onChange={onChangeFilter('email')}*/}
+            {/*            placeholder='Email'*/}
+            {/*        />*/}
+            {/*    </Col>*/}
+            {/*    <Col span={6}>*/}
+            {/*        <Input*/}
+            {/*            value={filters.phone}*/}
+            {/*            onChange={onChangeFilter('phone')}*/}
+            {/*            placeholder='Phone'*/}
+            {/*        />*/}
+            {/*    </Col>*/}
+            {/*    <Col span={6}>*/}
+            {/*        <Input*/}
+            {/*            value={filters.address}*/}
+            {/*            onChange={onChangeFilter('address')}*/}
+            {/*            placeholder='Address'*/}
+            {/*        />*/}
+            {/*    </Col>*/}
+            {/*</Row>*/}
 
-            <Row gutter={[16, 16]}>
-                <Col span={6}>
-                    <Input
-                        value={filters.age}
-                        onChange={onChangeFilter('age')}
-                        placeholder='Age'
-                    />
-                </Col>
-                <Col span={4}>
-                    <Input
-                        value={filters.age}
-                        onChange={onChangeFilter('age')}
-                        placeholder='Age search from'
-                    />
-                </Col>
-                    <Col span={4}>
-                    <Input
-                        value={filters.age}
-                        onChange={onChangeFilter('age')}
-                        placeholder='Age search till'
-                    />
-                </Col>
-            </Row>
+            {/*<Row gutter={[16, 16]}>*/}
+            {/*    <Col span={6}>*/}
+            {/*        <Input*/}
+            {/*            value={filters.age}*/}
+            {/*            onChange={onChangeFilter('age')}*/}
+            {/*            placeholder='Age'*/}
+            {/*        />*/}
+            {/*    </Col>*/}
+            {/*    <Col span={4}>*/}
+            {/*        <Input*/}
+            {/*            value={filters.age}*/}
+            {/*            onChange={onChangeFilter('age')}*/}
+            {/*            placeholder='Age search from'*/}
+            {/*        />*/}
+            {/*    </Col>*/}
+            {/*        <Col span={4}>*/}
+            {/*        <Input*/}
+            {/*            value={filters.age}*/}
+            {/*            onChange={onChangeFilter('age')}*/}
+            {/*            placeholder='Age search till'*/}
+            {/*        />*/}
+            {/*    </Col>*/}
+            {/*</Row>*/}
 
-            <Table rowKey='id' columns={columns} dataSource={customersFiltered}/>
+            <Table
+                rowKey='id'
+                columns={columns}
+                onRow={row => ({
+                    onClick: () => {
+                        nav('/customer/view/'+row.id)
+                    }
+                })}
+                dataSource={customers}
+                loading={loading}
+            />
         </>
     );
         }
