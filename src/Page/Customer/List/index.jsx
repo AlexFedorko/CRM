@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Col, Input, Row, Table} from "antd";
-import columns from "./columns.js";
+import columns from "./columns.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {loadCustomerList} from "./actions.js";
 import {makeSelectCustomerList, makeSelectCustomerLoading} from "./selector.js";

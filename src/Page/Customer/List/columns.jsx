@@ -11,11 +11,13 @@ export default [
         title: 'Email',
         dataIndex: 'email',
         // add link for email when click ht
+        render: (value) => <a href={`mailto:${value}`}>{value}</a>
     },
     {
         title: 'Phone',
         dataIndex: 'phone',
         // add link for phones when click ht
+        render: (value) => <a href={`tel:${value}`}>{value}</a>
     },
     {
         title: 'Balance',
