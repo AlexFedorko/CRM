@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Col, Input, Row, Table} from "antd";
 import columns from "./columns.jsx";
 import {useDispatch, useSelector} from "react-redux";
@@ -14,24 +14,26 @@ import {useNavigate} from "react-router-dom";
 // 3. Сделай универсальный поиск по всем полям ( отдельный инпут)
 // 4. Сделай страницу добавление клиента
 
+// Вертска
+// Фільтр 3-4 поля поиска
+// View отображение обьекта
+
+
 const initial = {
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    age: '',
-    ageFrom: '',
-    ageTill: ''
+    username: '',
 }
 function CustomersListPage() {
     const dispatch = useDispatch();
+    const nav = useNavigate();
+    const [filters, setFilters] = useState(initial);
+
     useEffect(() => {
-        dispatch(loadCustomerList());
-    }, []);
+        dispatch(loadCustomerList(filters));
+    }, [filters]);
 
     const customers = useSelector(makeSelectCustomerList());
     const loading = useSelector(makeSelectCustomerLoading());
-    const nav = useNavigate();
+
     // return customers.map(customer =>
     //     <ul>
     //     <li style={{
@@ -89,15 +91,24 @@ function CustomersListPage() {
     //     );
     // }, [customersNormalize, filters]);
     //
-    // const onChangeFilter = (inputName) => {
-    //     return e => setFilters(prev => {
-    //         prev[inputName] = e.target.value;
-    //         return {...prev};
-    //     })
-    // }
+    const onChangeFilter = (inputName) => {
+        return e => setFilters(prev => {
+            prev[inputName] = e.target.value;
+            return {...prev};
+        })
+    }
 
     return (
         <>
+            <Row gutter={[16, 16]}>
+                    <Col span={6}>
+                        <Input
+                            value={filters.username}
+                            onChange={onChangeFilter('username')}
+                            placeholder='Username'
+                        />
+                    </Col>
+            </Row>
             {/*<Row gutter={[16,16]}>*/}
             {/*    <Col span={24}>*/}
             {/*        <Input*/}
