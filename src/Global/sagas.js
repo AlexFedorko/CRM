@@ -13,7 +13,12 @@ function* sagaLoadCustomerList(action) {
     const filter = {};
     for (const key in filters) {
         if(filters[key]) {
-            filter[key] = filters[key];
+            if(typeof(filters[key]) === 'string'){
+                filter[key] = [filters[key], 'LIKE'];
+            }else{
+                filter[key] = filters[key];
+            }
+
         }
     }
    let response = yield api.get('customer', {filter}).catch(v=>v);

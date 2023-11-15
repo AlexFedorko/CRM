@@ -13,9 +13,10 @@ export const initial = {
     errors: [],
     loading: false
 }
+
 export default (state = initial, action) => produce(state, draft => {
 
-    switch(action.type){
+    switch(action.type) {
         case LOAD_CUSTOMER_LIST:
             draft.loading = true;
             break;

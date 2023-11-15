@@ -14,7 +14,10 @@ const CustomerViewPage = () => {
 
     const customer = useSelector(makeSelectCustomer());
     console.log(customer)
-    return 1;
+    return (
+        1
+        // Вывести пользователя во всей красе!
+    );
 }
 
 export default CustomerViewPage;
